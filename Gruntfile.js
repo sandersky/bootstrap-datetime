@@ -6,6 +6,24 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     clean: ['build/'],
     copy: {
+      docs: {
+        files: [{
+          // CSS files
+          'docs/css/bootstrap.min.css': 'bower_components/bootstrap/dist/css/bootstrap.min.css',
+          'docs/css/bootstrap-datetime.min.css': 'build/css/bootstrap-datetime.min.css',
+          // JavaScript files
+          'docs/js/jquery.min.js': 'bower_components/jquery/dist/jquery.min.js',
+          'docs/js/bootstrap.min.js': 'bower_components/bootstrap/dist/js/bootstrap.min.js',
+          'docs/js/moment.min.js': 'bower_components/momentjs/min/moment-with-langs.min.js',
+          'docs/js/bootstrap-datetime.min.js': 'build/js/bootstrap-datetime.min.js'
+        }, {
+            expand: true,
+            flatten: true,
+            src: ['bower_components/bootstrap/dist/fonts/**'],
+            dest: 'docs/fonts/',
+            filter: 'isFile'
+        }]
+      },
       js: {
         files: {
           'build/js/<%= pkg.name %>.js': 'src/js/<%= pkg.name %>.js'
@@ -68,6 +86,10 @@ module.exports = function (grunt) {
     'cssmin'
   ]);
 
+  grunt.registerTask('build-docs', [
+    'copy:docs'
+  ]);
+
   // Task for compiling and minifying JavaScript
   grunt.registerTask('build-js', [
     'copy:js',
@@ -78,7 +100,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean',
     'build-css',
-    'build-js'
+    'build-js',
+    'build-docs'
   ]);
 
   // Default task(s).

@@ -1,0 +1,10 @@
+name: bootstrap-datetime
+markdown: redcarpet
+highlighter: pygments
+source: docs
+
+repo: git@github.com:sandersky/bootstrap-datetime.git
+
+license:
+  mit: https://raw.githubusercontent.com/sandersky/bootstrap-datetime/master/LICENSE
+  creative_commons: https://raw.githubusercontent.com/sandersky/bootstrap-datetime/master/docs/LICENSE
