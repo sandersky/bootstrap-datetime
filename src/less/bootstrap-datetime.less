@@ -1,0 +1,51 @@
+.datetime-popover {
+  display: none;
+  left: auto;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 300px;
+
+  &.bottom > .arrow {
+    left: auto;
+    right: 8px;
+  }
+
+  .input-group-btn .btn {
+    position: relative;
+  }
+
+  .popover-title {
+    position: relative;
+
+    .btn {
+      position: absolute;
+      top: 5px;
+
+      &:first-child {
+        left: 5px;
+      }
+
+      &:last-child {
+        right: 5px;
+      }
+    }
+  }
+
+  .popover-content {
+    padding: 0;
+  }
+
+  table {
+    margin-bottom: 0;
+  }
+
+  td a {
+    display: block;
+    text-align: center;
+  }
+
+  th {
+    text-align: center;
+  }
+}
