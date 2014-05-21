@@ -7,7 +7,6 @@
       popoverInput,
       tbody,
       title,
-      todayBtn,
       year;
 
   var dateFormat = 'YYYY-MM-DD';
@@ -62,6 +61,11 @@
   }
 
   function buildCalendar(date) {
+    popover.find('[data-id="time-btn"]').removeClass('active');
+    popover.find('[data-id="date-btn"]').addClass('active');
+    popover.find('[data-id="time-content"]').hide();
+    popover.find('[data-id="date-content"]').show();
+
     month = date.month();
     year = date.year();
 
@@ -111,46 +115,74 @@
       '<div class="popover bottom datetime-popover">' +
         '<div class="arrow"></div>' +
         '<div class="popover-title text-center">' +
+          '<a data-id="previous-btn" class="btn btn-xs btn-default" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>' +
           '<h3 class="panel-title">' +
           '</h3>' +
+          '<a data-id="next-btn" class="btn btn-xs btn-default" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a>' +
         '</div>' +
-        '<div class="popover-content">' +
+        '<div data-id="date-content" class="popover-content">' +
           '<table class="table table-condensed table-striped">' +
             '<thead>' +
+              '<tr>' +
+              '</tr>' +
             '</thead>' +
             '<tbody>' +
             '</tbody>' +
           '</table>' +
         '</div>' +
+        '<div data-id="time-content" class="popover-content">' +
+        '</div>' +
         '<div class="panel-footer">' +
+          '<a data-id="today-btn" class="btn btn-xs btn-default" href="#">' + today + '</a>' +
+          '<div data-id="datetime-btns" class="btn-group btn-group-xs pull-right">' +
+            '<a data-id="date-btn" class="btn btn-default active" href="#"><span class="glyphicon glyphicon-calendar"></span></a>' +
+            '<a data-id="time-btn" class="btn btn-default" href="#"><span class="glyphicon glyphicon-time"></span></a>' +
+          '</div>' +
         '</div>' +
       '</div>');
 
-    var popoverTitle = popover.find('.popover-title');
-    var previousMonthBtn = jQuery('<a class="btn btn-xs btn-default" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>');
-    var nextMonthBtn = jQuery('<a class="btn btn-xs btn-default" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a>');
-    popoverTitle.prepend(previousMonthBtn);
-    popoverTitle.append(nextMonthBtn);
-    previousMonthBtn.click(previousMonthClickHandler);
-    nextMonthBtn.click(nextMonthClickHandler);
+    // Bind click events to calendar buttons
+    popover.find('[data-id="previous-btn"]').click(previousMonthClickHandler);
+    popover.find('[data-id="next-btn"]').click(nextMonthClickHandler);
+    popover.find('[data-id="today-btn"]').click(todayClickHandler);
+    popover.find('[data-id="date-btn"]').click(dateClickHandler);
+    popover.find('[data-id="time-btn"]').click(timeClickHandler);
 
     // Create table header with names of days
-    var thead = popover.find('.popover-content > table > thead');
+    var theadTr = popover.find('.popover-content > table > thead > tr');
     for (var i in moment.weekdaysShort()) {
-      thead.append(jQuery('<th>' + moment.weekdaysShort()[i] + '</th>'));
+      theadTr.append(jQuery('<th>' + moment.weekdaysShort()[i] + '</th>'));
     }
-
-    // Create button for 'Today'
-    todayBtn = jQuery('<a class="btn btn-xs btn-default" href="#">' + today + '</a>');
-
-    // Bind click event to 'Today' button
-    todayBtn.click(todayClickHandler);
-
-    // Add 'Today' button to popover footer
-    var popoverFooter = popover.find('.panel-footer').append(todayBtn);
 
     title = popover.find('.panel-title');
     tbody = popover.find('.popover-content > table > tbody');
+  }
+
+  function buildTime(date) {
+    popover.find('[data-id="date-btn"]').removeClass('active');
+    popover.find('[data-id="time-btn"]').addClass('active');
+    popover.find('[data-id="date-content"]').hide();
+    popover.find('[data-id="time-content"]').show();
+  }
+
+  function dateClickHandler(e) {
+    e.preventDefault();
+
+    // Get calendar button
+    var calendarBtn = jQuery(this);
+
+    // If calendar is already present no need to continue
+    if (calendarBtn.hasClass('active')) {
+      return;
+    }
+
+    buildCalendar(currentDate);
+
+    // Make sure calendar button is not shown as active
+    calendarBtn.siblings('.active').removeClass('active');
+
+    // Make calendar button appear as active
+    calendarBtn.addClass('active');
   }
 
   function dayClickHandler(e) {
@@ -160,6 +192,10 @@
     var date = moment(year + '-' + (month + 1).toString().lpad('0', 2) + '-' + day.toString().lpad('0', 2));
 
     updateCalendar(date);
+  }
+
+  function hideDateTimeButtons() {
+    popover.find('[data-id="datetime-btns"]').hide();
   }
 
   function hidePopover() {
@@ -205,10 +241,26 @@
     currentDate = date;
 
     // Build calendar based on date
-    buildCalendar(date);
+    presentInput(date);
 
     // Show DateTime picker
     popover.show();
+  }
+
+  function presentInput(date) {
+    switch (currentInput.data('type')) {
+      case 'date':
+        hideDateTimeButtons();
+        buildCalendar(date);
+        break;
+      case 'time':
+        hideDateTimeButtons();
+        buildTime(date);
+        break;
+      default:
+        showDateTimeButtons();
+        buildCalendar(date);
+    }
   }
 
   function previousMonthClickHandler(e) {
@@ -225,6 +277,30 @@
     var date = moment(y.toString().lpad('0', 4) + '-' + m.toString().lpad('0', 2) + '-' + '01');
 
     buildCalendar(date);
+  }
+
+  function showDateTimeButtons() {
+    popover.find('[data-id="datetime-btns"]').show();
+  }
+
+  function timeClickHandler(e) {
+    e.preventDefault();
+
+    // Get time button
+    var timeBtn = jQuery(this);
+
+    // If time is already present no need to continue
+    if (timeBtn.hasClass('active')) {
+      return;
+    }
+
+    buildTime(currentDate);
+
+    // Make sure calendar button is not shown as active
+    timeBtn.siblings('.active').removeClass('active');
+
+    // Make time button appear as active
+    timeBtn.addClass('active');
   }
 
   function todayClickHandler(e) {
