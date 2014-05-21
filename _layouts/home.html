@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ site.name }}</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site.name }} is a DateTime picker widget that utilizes Twitter Bootstrap for its UI.">
+    <meta name="keywords" content="bootstrap datetime picker widget">
+    <meta name="author" content="Matthew Dahl">
+
+    <link href="../docs/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../docs/css/bootstrap-datetime.min.css" rel="stylesheet">
+    <link href="../docs/css/docs.css" rel="stylesheet">
+
+    <script src="../docs/js/jquery.min.js"></script>
+    <script src="../docs/js/bootstrap.min.js"></script>
+    <script src="../docs/js/moment.min.js"></script>
+    <script src="../docs/js/bootstrap-datetime.min.js"></script>
+
+  </head>
+  <body data-spy="scroll" data-target=".main-nav-scrollspy">
+
+    <header class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">{{ site.name }}</a>
+        </div>
+        <div class="collapse navbar-collapse main-nav-scrollspy">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#documentation">Documentation</a></li>
+            <li><a href="#how-to-build">How to Build</a></li>
+            <li><a href="#contributors">Contributors</a></li>
+            <li><a href="#license">License</a></li>
+            <li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      {{ content }}
+    </div>
+
+    <script>
+      jQuery('.main-nav-scrollspy ul li a[href^="#"]').on('click', function (e) {
+         // prevent default anchor click behavior
+         e.preventDefault();
+
+         // store hash
+         var hash = this.hash;
+
+         // animate
+         jQuery('html, body').animate({
+             scrollTop: jQuery(this.hash).offset().top - 80
+           }, 300, function () {
+             // when done, add hash to url
+             // (default click behaviour)
+             window.location.hash = hash;
+           });
+      });
+    </script>
+
+  </body>
+</html>

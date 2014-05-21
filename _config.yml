@@ -1,7 +1,6 @@
 name: bootstrap-datetime
 markdown: redcarpet
 highlighter: pygments
-source: docs
 
 repo: git@github.com:sandersky/bootstrap-datetime.git
 
