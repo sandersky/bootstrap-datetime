@@ -1,4 +1,4 @@
 bootstrap-datetime
 ==================
 
-DateTime picker that utilizes Twitter Bootstrap
+Go to GitHub page to learn more: <http://sandersky.github.io/bootstrap-datetime>
