@@ -1,6 +1,7 @@
 name: bootstrap-datetime
 markdown: redcarpet
 highlighter: pygments
+exclude: ['bower_components', 'build', 'node_modules', 'src']
 
 repo: git@github.com:sandersky/bootstrap-datetime.git
 

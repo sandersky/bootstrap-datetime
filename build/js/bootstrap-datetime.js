@@ -153,7 +153,9 @@
     tbody = popover.find('.popover-content > table > tbody');
   }
 
-  function dayClickHandler() {
+  function dayClickHandler(e) {
+    e.preventDefault();
+
     var day = parseInt(jQuery(this).text());
     var date = moment(year + '-' + (month + 1).toString().lpad('0', 2) + '-' + day.toString().lpad('0', 2));
 
@@ -165,7 +167,9 @@
     popoverInput = null;
   }
 
-  function nextMonthClickHandler() {
+  function nextMonthClickHandler(e) {
+    e.preventDefault();
+
     var m = month + 2;
     var y = year;
 
@@ -207,7 +211,9 @@
     popover.show();
   }
 
-  function previousMonthClickHandler() {
+  function previousMonthClickHandler(e) {
+    e.preventDefault();
+
     var m = month;
     var y = year;
 
@@ -221,7 +227,9 @@
     buildCalendar(date);
   }
 
-  function todayClickHandler() {
+  function todayClickHandler(e) {
+    e.preventDefault();
+
     // Get current DateTime
     var date = moment();
 
