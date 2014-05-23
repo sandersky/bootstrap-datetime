@@ -92,8 +92,8 @@
         tableContent += '</tr><tr>';
         dayCount = 0;
       }
-      active = month === currentDate.month() && year === currentDate.year() && (i + 1) === currentDate.date() ? ' active' : '';
-      tableContent += '<td><a class="btn btn-xs btn-default' + active + '" href="#">' + (i + 1) + '</a></td>';
+      active = month === currentDate.month() && year === currentDate.year() && (i + 1) === currentDate.date() ? 'btn btn-xs btn-default active' : '';
+      tableContent += '<td><a class="' + active + '" href="#">' + (i + 1) + '</a></td>';
       dayCount++;
     }
 
