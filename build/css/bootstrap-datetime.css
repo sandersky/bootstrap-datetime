@@ -2,13 +2,18 @@
   display: none;
   left: auto;
   position: absolute;
-  right: 0;
+  right: 14px;
   top: 100%;
   width: 300px;
 }
 .datetime-popover.bottom > .arrow {
   left: auto;
-  right: 8px;
+  right: 10px;
+}
+.datetime-popover .btn-group .btn:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 .datetime-popover .input-group-btn .btn {
   position: relative;
@@ -32,10 +37,10 @@
 .datetime-popover table {
   margin-bottom: 0;
 }
-.datetime-popover td a {
+.datetime-popover table td a {
   display: block;
   text-align: center;
 }
-.datetime-popover th {
+.datetime-popover table th {
   text-align: center;
 }

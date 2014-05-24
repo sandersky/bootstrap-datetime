@@ -1,16 +1,26 @@
+@datetime-popover-title-btn-margin: 18px - @font-size-base + 1px;
+
+// Date/Time popover
 .datetime-popover {
   display: none;
   left: auto;
   position: absolute;
-  right: 0;
+  right: @grid-gutter-width / 2 - 1;
   top: 100%;
   width: 300px;
 
+  // Popover arrow point towards input button
   &.bottom > .arrow {
     left: auto;
-    right: 8px;
+    right: @padding-base-horizontal - 2;
   }
 
+  // Date/Time buttons in bottom right corner
+  .btn-group .btn:focus {
+    .tab-focus();
+  }
+
+  // Input button for launching Date/Time popover
   .input-group-btn .btn {
     position: relative;
   }
@@ -20,32 +30,34 @@
 
     .btn {
       position: absolute;
-      top: 5px;
+      top: @datetime-popover-title-btn-margin;
 
       &:first-child {
-        left: 5px;
+        left: @datetime-popover-title-btn-margin;
       }
 
       &:last-child {
-        right: 5px;
+        right: @datetime-popover-title-btn-margin;
       }
     }
   }
 
+  // Main popover content for both Date and Time
   .popover-content {
     padding: 0;
   }
 
+  // Calendar table
   table {
     margin-bottom: 0;
-  }
 
-  td a {
-    display: block;
-    text-align: center;
-  }
+    td a {
+      display: block;
+      text-align: center;
+    }
 
-  th {
-    text-align: center;
+    th {
+      text-align: center;
+    }
   }
 }

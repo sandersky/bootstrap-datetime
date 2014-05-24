@@ -46,7 +46,7 @@ module.exports = function (grunt) {
     less: {
       build: {
         files: {
-          'build/css/<%= pkg.name %>.css': 'src/less/<%= pkg.name %>.less'
+          'build/css/<%= pkg.name %>.css': 'src/less/build.less'
         }
       }
     },
@@ -54,9 +54,10 @@ module.exports = function (grunt) {
       options: {
         csslint: {
           'adjoining-classes': false
-        }
+        },
+        imports: ['src/less/**/*.less']
       },
-      src: ['src/less/**/*.less']
+      src: ['src/less/build.less']
     },
     uglify: {
       build: {

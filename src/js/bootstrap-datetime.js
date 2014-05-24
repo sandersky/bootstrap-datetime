@@ -204,20 +204,6 @@
     popoverInput = null;
   }
 
-  function keydownHandler(e) {
-    var keyCode = e.keyCode || e.which;
-
-    if (keyCode === 9) {
-      e.preventDefault();
-
-      if (currentInput.data('type') !== 'time') {
-        popover.find('[data-id="previous-btn"]').focus();
-      } else {
-        // TODO: select first tabbable item in time view
-      }
-    }
-  }
-
   function nextMonthClickHandler(e) {
     e.preventDefault();
 
@@ -235,19 +221,17 @@
   }
 
   function popoverHandler() {
-    currentInput = jQuery(this).parent().prev();
+    var inputBtn = jQuery(this);
+    currentInput = inputBtn.parent().prev();
 
     if (popoverInput && this === popoverInput) {
       hidePopover();
-      jQuery(this).off('keydown', keydownHandler);
       return;
     }
 
-    jQuery(this).on('keydown', keydownHandler);
-
     popoverInput = this;
 
-    currentInput.after(popover);
+    currentInput.parent().after(popover);
 
     var date = moment(currentInput.val());
 
