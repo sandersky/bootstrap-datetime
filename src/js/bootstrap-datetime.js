@@ -64,7 +64,7 @@
     popover.find('[data-id="time-btn"]').removeClass('active');
     popover.find('[data-id="date-btn"]').addClass('active');
     popover.find('[data-id="time-content"]').hide();
-    popover.find('[data-id="date-content"]').show();
+    popover.find('.popover-title, [data-id="date-content"], [data-id="today-btn"]').show();
 
     month = date.month();
     year = date.year();
@@ -138,6 +138,7 @@
             '<a data-id="date-btn" class="btn btn-default active" href="#"><span class="glyphicon glyphicon-calendar"></span></a>' +
             '<a data-id="time-btn" class="btn btn-default" href="#"><span class="glyphicon glyphicon-time"></span></a>' +
           '</div>' +
+          '<div class="clearfix"></div>' +
         '</div>' +
       '</div>');
 
@@ -161,7 +162,7 @@
   function buildTime(date) {
     popover.find('[data-id="date-btn"]').removeClass('active');
     popover.find('[data-id="time-btn"]').addClass('active');
-    popover.find('[data-id="date-content"]').hide();
+    popover.find('.popover-title, [data-id="date-content"], [data-id="today-btn"]').hide();
     popover.find('[data-id="time-content"]').show();
   }
 
@@ -348,7 +349,11 @@
     // Add active class to newly selected day
     tbody.find('a:textEquals("' + date.date() + '")').addClass('active');
 
-    hidePopover();
+    if (currentInput.data('type') === 'date') {
+      hidePopover();
+    } else {
+      buildTime(currentDate);
+    }
   }
 
   buildPopover();
