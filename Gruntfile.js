@@ -53,7 +53,8 @@ module.exports = function (grunt) {
     lesslint: {
       options: {
         csslint: {
-          'adjoining-classes': false
+          'adjoining-classes': false,
+          'unqualified-attributes': false
         },
         imports: ['src/less/**/*.less']
       },

@@ -42,9 +42,19 @@
     }
   }
 
-  // Main popover content for both Date and Time
-  .popover-content {
+  // Main popover content for Date
+  [data-id="date-content"] {
     padding: 0;
+  }
+
+  // Main popover content for Time
+  [data-id="time-content"] input {
+    margin: @padding-base-horizontal 0;
+    text-align: right;
+  }
+
+  [data-id="done-btn"] {
+    margin-top: @padding-base-horizontal;
   }
 
   // Calendar table

@@ -26,6 +26,8 @@
     return str;
   };
 
+  var done = 'Done';
+  var now = 'Now';
   var today = 'Today';
 
   function bindPicker() {
@@ -63,7 +65,7 @@
   function buildCalendar(date) {
     popover.find('[data-id="time-btn"]').removeClass('active');
     popover.find('[data-id="date-btn"]').addClass('active');
-    popover.find('[data-id="time-content"]').hide();
+    popover.find('[data-id="time-content"], [data-id="now-btn"]').hide();
     popover.find('.popover-title, [data-id="date-content"], [data-id="today-btn"]').show();
 
     month = date.month();
@@ -131,9 +133,27 @@
           '</table>' +
         '</div>' +
         '<div data-id="time-content" class="popover-content">' +
+          '<div class="col-md-4 text-center">' +
+            '<button class="btn btn-default" data-id="hour-up-btn"><span class="glyphicon glyphicon-chevron-up"></span></button>' +
+            '<input class="form-control" data-id="hour-input">' +
+            '<button class="btn btn-default" data-id="hour-down-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
+          '</div>' +
+          '<div class="col-md-4 text-center">' +
+            '<button class="btn btn-default" data-id="minute-up-btn"><span class="glyphicon glyphicon-chevron-up"></span></button>' +
+            '<input class="form-control" data-id="minute-input">' +
+            '<button class="btn btn-default" data-id="minute-down-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
+          '</div>' +
+          '<div class="col-md-4 text-center">' +
+            '<button class="btn btn-default" data-id="second-up-btn"><span class="glyphicon glyphicon-chevron-up"></span></button>' +
+            '<input class="form-control" data-id="second-input">' +
+            '<button class="btn btn-default" data-id="second-down-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
+          '</div>' +
+          '<button class="btn btn-default btn-xs pull-right" data-id="done-btn">' + done + '</button>' +
+          '<div class="clearfix"></div>' +
         '</div>' +
         '<div class="panel-footer">' +
           '<a data-id="today-btn" class="btn btn-xs btn-default" href="#">' + today + '</a>' +
+          '<a data-id="now-btn" class="btn btn-xs btn-default" href="#">' + now + '</a>' +
           '<div data-id="datetime-btns" class="btn-group btn-group-xs pull-right">' +
             '<a data-id="date-btn" class="btn btn-default active" href="#"><span class="glyphicon glyphicon-calendar"></span></a>' +
             '<a data-id="time-btn" class="btn btn-default" href="#"><span class="glyphicon glyphicon-time"></span></a>' +
@@ -146,6 +166,11 @@
     popover.find('[data-id="previous-btn"]').click(previousMonthClickHandler);
     popover.find('[data-id="next-btn"]').click(nextMonthClickHandler);
     popover.find('[data-id="today-btn"]').click(todayClickHandler);
+    popover.find('[data-id="done-btn"]').click(doneClickHandler);
+    popover.find('[data-id="hour-up-btn"], [data-id="minute-up-btn"], [data-id="second-up-btn"]').click(numericUpClickHandler);
+    popover.find('[data-id="hour-input"], [data-id="minute-input"], [data-id="second-input"]').change(numericChangeHandler);
+    popover.find('[data-id="hour-down-btn"], [data-id="minute-down-btn"], [data-id="second-down-btn"]').click(numericDownClickHandler);
+    popover.find('[data-id="now-btn"]').click(nowClickHandler);
     popover.find('[data-id="date-btn"]').click(dateClickHandler);
     popover.find('[data-id="time-btn"]').click(timeClickHandler);
 
@@ -163,7 +188,21 @@
     popover.find('[data-id="date-btn"]').removeClass('active');
     popover.find('[data-id="time-btn"]').addClass('active');
     popover.find('.popover-title, [data-id="date-content"], [data-id="today-btn"]').hide();
-    popover.find('[data-id="time-content"]').show();
+    popover.find('[data-id="time-content"], [data-id="now-btn"]').show();
+
+    // If current date not set get value of current input
+    if (!currentDate) {
+      currentDate = moment(currentInput.val());
+    }
+
+    // If we do not have a valid current date use current Date/Time
+    if (!currentDate.isValid()) {
+      currentDate = moment();
+    }
+
+    jQuery('[data-id="hour-input"]').val(currentDate.hour());
+    jQuery('[data-id="minute-input"]').val(currentDate.minute());
+    jQuery('[data-id="second-input"]').val(currentDate.second());
   }
 
   function dateClickHandler(e) {
@@ -195,6 +234,18 @@
     updateCalendar(date);
   }
 
+  function doneClickHandler(e) {
+    e.preventDefault();
+
+    var date = moment();
+
+    date.hour(jQuery('[data-id="hour-input"]').val());
+    date.minute(jQuery('[data-id="minute-input"]').val());
+    date.second(jQuery('[data-id="second-input"]').val());
+
+    updateTime(date);
+  }
+
   function hideDateTimeButtons() {
     popover.find('[data-id="datetime-btns"]').hide();
   }
@@ -202,6 +253,7 @@
   function hidePopover() {
     popover.hide();
     popoverInput = null;
+    currentDate = null;
   }
 
   function nextMonthClickHandler(e) {
@@ -218,6 +270,74 @@
     var date = moment(y.toString().lpad('0', 4) + '-' + m.toString().lpad('0', 2) + '-' + '01');
 
     buildCalendar(date);
+  }
+
+  function nowClickHandler(e) {
+    e.preventDefault();
+
+    // Get current DateTime
+    var date = moment();
+
+    updateTime(date);
+  }
+
+  function numericChangeHandler() {
+    var input = jQuery(this);
+    input.val(input.val().match(/\d*\.?\d+/));
+  }
+
+  function numericDownClickHandler(e) {
+    e.preventDefault();
+
+    var btn = jQuery(this);
+    var input = null;
+    var max = 60;
+
+    switch (btn.data('id')) {
+      case 'hour-down-btn':
+        input = jQuery('[data-id="hour-input"]');
+        max = 24;
+        break;
+      case 'minute-down-btn':
+        input = jQuery('[data-id="minute-input"]');
+        break;
+      default: // second-down-btn
+        input = jQuery('[data-id="second-input"]');
+    }
+
+    var val = parseInt(input.val());
+    if (isNaN(val) || val === 0) {
+      input.val(max);
+    } else {
+      input.val(--val);
+    }
+  }
+
+  function numericUpClickHandler(e) {
+    e.preventDefault();
+
+    var btn = jQuery(this);
+    var input = null;
+    var max = 60;
+
+    switch (btn.data('id')) {
+      case 'hour-up-btn':
+        input = jQuery('[data-id="hour-input"]');
+        max = 24;
+        break;
+      case 'minute-up-btn':
+        input = jQuery('[data-id="minute-input"]');
+        break;
+      default: // second-up-btn
+        input = jQuery('[data-id="second-input"]');
+    }
+
+    var val = parseInt(input.val());
+    if (isNaN(val) || val === max) {
+      input.val(0);
+    } else {
+      input.val(++val);
+    }
   }
 
   function popoverHandler() {
@@ -355,6 +475,31 @@
     } else {
       buildTime(currentDate);
     }
+  }
+
+  function updateTime(date) {
+    if (!currentDate) {
+      currentDate = moment(currentInput.val());
+    }
+
+    // If a date has been set lets make sure to keep it
+    if (currentDate.isValid()) {
+      currentDate.hour(date.hour());
+      currentDate.minute(date.minute());
+      currentDate.second(date.second());
+      date = currentDate;
+    }
+
+    // Update input value
+    switch (currentInput.data('type')) {
+      case 'time':
+        currentInput.val(date.format(timeFormat));
+        break;
+      default:
+        currentInput.val(date.format(dateTimeFormat));
+    }
+
+    hidePopover();
   }
 
   buildPopover();

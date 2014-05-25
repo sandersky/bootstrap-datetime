@@ -31,8 +31,15 @@
 .datetime-popover .popover-title .btn:last-child {
   right: 5px;
 }
-.datetime-popover .popover-content {
+.datetime-popover [data-id="date-content"] {
   padding: 0;
+}
+.datetime-popover [data-id="time-content"] input {
+  margin: 12px 0;
+  text-align: right;
+}
+.datetime-popover [data-id="done-btn"] {
+  margin-top: 12px;
 }
 .datetime-popover table {
   margin-bottom: 0;
