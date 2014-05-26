@@ -103,17 +103,17 @@
         '<div data-id="time-content" class="popover-content">' +
           '<div class="col-md-4 text-center">' +
             '<button class="btn btn-default" data-id="hour-up-btn"><span class="glyphicon glyphicon-chevron-up"></span></button>' +
-            '<input class="form-control" data-id="hour-input">' +
+            '<input class="form-control" data-id="hour-input" maxlength="2">' +
             '<button class="btn btn-default" data-id="hour-down-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
           '</div>' +
           '<div class="col-md-4 text-center">' +
             '<button class="btn btn-default" data-id="minute-up-btn"><span class="glyphicon glyphicon-chevron-up"></span></button>' +
-            '<input class="form-control" data-id="minute-input">' +
+            '<input class="form-control" data-id="minute-input" maxlength="2">' +
             '<button class="btn btn-default" data-id="minute-down-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
           '</div>' +
           '<div class="col-md-4 text-center">' +
             '<button class="btn btn-default" data-id="second-up-btn"><span class="glyphicon glyphicon-chevron-up"></span></button>' +
-            '<input class="form-control" data-id="second-input">' +
+            '<input class="form-control" data-id="second-input" maxlength="2">' +
             '<button class="btn btn-default" data-id="second-down-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
           '</div>' +
           '<button class="btn btn-default btn-xs pull-right" data-id="done-btn">' + done + '</button>' +
@@ -259,7 +259,7 @@
 
     var btn = jQuery(this);
     var input = null;
-    var max = 60;
+    var max = 59;
 
     switch (btn.data('id')) {
       case 'hour-down-btn':

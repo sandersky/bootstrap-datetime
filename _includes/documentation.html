@@ -1,25 +1,25 @@
 <div id="documentation">
   <h2>Documentation</h2>
   <p class="lead">
-    {{ site.name }} leverages <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> classes which allows you to customize the look and feel of {{ site.name }} by customizing <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>. There are two ways to get started with {{ site.name }}:
+    {{ site.name }} leverages <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> classes which means if you have a customized version of <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>, {{ site.name }} will automatically take on your customizations. There are two ways to get started with {{ site.name }}:
   </p>
   <ol>
     <li>
       <p>
         Automatically apply {{ site.name }} to all <em>datetime</em>, <em>date</em>, and <em>time</em> inputs with the following JavaScript:
-        <br>
-        <code>
-          bootstrapDateTime.auto();
-        </code>
+        <pre>bootstrapDateTime.auto();</pre>
+        <span class="text-info">
+          Note: The inputs must exist in the DOM before calling this line of code. To be safe you may want to add it to jQuery document ready like so:
+        </span>
+<pre>jQuery(function () {
+  bootstrapDateTime.auto();
+});</pre>
       </p>
     </li>
     <li>
       <p>
         Apply {{ site.name }} to only certain DOM elements using a jQuery selector (In this example apply {{ site.name }} to all DOM elements with the class <em>enhancify</em>):
-        <br>
-        <code>
-          bootstrapDateTime.bind('.enhancify');
-        </code>
+        <pre>bootstrapDateTime.bind('.enhancify');</pre>
       </p>
     </li>
   </ol>
@@ -47,6 +47,9 @@
     </div>
   </form>
   <div class="clearfix"></div>
+  <p class="lead">
+    {{ site.name }} currently does not have any configuration options but plans to add these are in the pipeline. Future configuration options will include things like 12 hour vs 24 hour time, Date/Time format string, among others.
+  </p>
 </div>
 <script>
   bootstrapDateTime.auto();
