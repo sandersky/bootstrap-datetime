@@ -30,38 +30,6 @@
   var now = 'Now';
   var today = 'Today';
 
-  function bindPicker() {
-    // Get all Date and DateTime inputs
-    var inputs = jQuery('input[type="date"], input[type="datetime"], input[type="time"]');
-      inputs.wrap('<div class="input-group"></div>');
-
-    inputs.each(function (i, input) {
-      input = jQuery(input);
-
-      var inputBtn;
-
-      switch (input.attr('type')) {
-        case 'date':
-          input.data('type', 'date');
-          inputBtn = '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>';
-          break;
-        case 'time':
-          input.data('type', 'time');
-          inputBtn = '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-time"></span></button>';
-          break;
-        default:
-          input.data('type', 'datetime');
-          inputBtn = '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>';
-      }
-
-      input.after(jQuery('<div class="input-group-btn">' + inputBtn + '</div>'));
-      input.parent().find('button').click(popoverHandler);
-    });
-
-    // Change type to text to prevent browser implemented pickers
-    inputs.attr('type', 'text');
-  }
-
   function buildCalendar(date) {
     popover.find('[data-id="time-btn"]').removeClass('active');
     popover.find('[data-id="date-btn"]').addClass('active');
@@ -507,9 +475,68 @@
   jQuery(function () {
     // Add DateTime popover to DOM
     jQuery('body').append(popover);
-
-    // Bind DateTime picker to Date and DateTime inputs
-    bindPicker();
   });
+
+  // Bootstrap DateTime object with public methods
+  bootstrapDateTime = {
+
+    // Add picker to all date, datetime, and time inputs currently in DOM
+    auto: function () {
+      bootstrapDateTime.bind('input[type="date"], input[type="datetime"], input[type="time"]');
+    },
+
+    // Add picker to inputs based on a given jQuery selector
+    bind: function (selector) {
+      // Get inputs from selector
+      var inputs = jQuery(selector);
+
+      // Setup each input one by one
+      inputs.each(function (i, input) {
+        input = jQuery(input);
+
+        // If input is not in an input group, put it inside an input group
+        if (!input.parent().hasClass('input-group')) {
+          input.wrap('<div class="input-group"></div>');
+        }
+
+        var icon;
+
+        switch (input.attr('type')) {
+          case 'date':
+            input.data('type', 'date');
+            icon = 'calendar';
+            break;
+          case 'time':
+            input.data('type', 'time');
+            icon = 'time';
+            break;
+          default:
+            input.data('type', 'datetime');
+            icon = 'calendar';
+        }
+
+        // Add picker button to input group
+        input.after(jQuery(
+          '<div class="input-group-btn">' +
+            '<button class="btn btn-default" type="button">' +
+              '<span class="glyphicon glyphicon-' + icon + '"></span>' +
+            '</button>' +
+          '</div>'
+        ));
+
+        // Bind click event to picker button
+        input.parent().find('button').click(popoverHandler);
+      });
+
+      // Change type of inputs to text to prevent browser from implementing its own pickers
+      inputs.attr('type', 'text');
+    }
+
+  };
+
+  // Make Bootstrap DateTime global
+  window.bootstrapDateTime = bootstrapDateTime;
+
+  return bootstrapDateTime;
 
 })();

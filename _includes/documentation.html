@@ -1,6 +1,31 @@
 <div id="documentation">
   <h2>Documentation</h2>
-  <p class="lead">{{ site.name }} is designed for ease of use and will automatically apply itself to inputs of type <em>datetime</em>, <em>date</em>, or <em>time</em>. In the future {{ site.name }} will be more customizable, at which point this documentation will describe all configuration options with examples. {{ site.name }} also leverages <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> classes, so you can simply customize the look and feel of {{ site.name }} by customizing <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>. For now you can see examples of it in action below:</p>
+  <p class="lead">
+    {{ site.name }} leverages <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> classes which allows you to customize the look and feel of {{ site.name }} by customizing <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>. There are two ways to get started with {{ site.name }}:
+  </p>
+  <ol>
+    <li>
+      <p>
+        Automatically apply {{ site.name }} to all <em>datetime</em>, <em>date</em>, and <em>time</em> inputs with the following JavaScript:
+        <br>
+        <code>
+          bootstrapDateTime.auto();
+        </code>
+      </p>
+    </li>
+    <li>
+      <p>
+        Apply {{ site.name }} to only certain DOM elements using a jQuery selector (In this example apply {{ site.name }} to all DOM elements with the class <em>enhancify</em>):
+        <br>
+        <code>
+          bootstrapDateTime.bind('.enhancify');
+        </code>
+      </p>
+    </li>
+  </ol>
+  <p class="lead">
+    Below is an example of {{ site.name }} on all three input types: <em>datetime</em>, <em>date</em>, and <em>time</em>.
+  </p>
   <form class="form-horizontal col-sm-4">
     <div class="form-group">
       <label class="col-sm-4 control-label" for="datetime">DateTime</label>
@@ -23,3 +48,6 @@
   </form>
   <div class="clearfix"></div>
 </div>
+<script>
+  bootstrapDateTime.auto();
+</script>

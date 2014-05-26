@@ -43,6 +43,11 @@ module.exports = function (grunt) {
         'src/js/**/*.js'
       ]
     },
+    karma: {
+      unit: {
+        configFile: 'tests/karma.conf.js'
+      }
+    },
     less: {
       build: {
         files: {
@@ -104,6 +109,10 @@ module.exports = function (grunt) {
     'build-css',
     'build-js',
     'build-docs'
+  ]);
+
+  grunt.registerTask('test', [
+    'karma'
   ]);
 
   // Default task(s).
