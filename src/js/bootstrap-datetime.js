@@ -30,6 +30,20 @@
   var now = 'Now';
   var today = 'Today';
 
+  function bindEvents() {
+    // Bind click events to calendar buttons
+    popover.find('[data-id="previous-btn"]').click(previousMonthClickHandler);
+    popover.find('[data-id="next-btn"]').click(nextMonthClickHandler);
+    popover.find('[data-id="today-btn"]').click(todayClickHandler);
+    popover.find('[data-id="done-btn"]').click(doneClickHandler);
+    popover.find('[data-id="hour-up-btn"], [data-id="minute-up-btn"], [data-id="second-up-btn"]').click(numericUpClickHandler);
+    popover.find('[data-id="hour-input"], [data-id="minute-input"], [data-id="second-input"]').change(numericChangeHandler);
+    popover.find('[data-id="hour-down-btn"], [data-id="minute-down-btn"], [data-id="second-down-btn"]').click(numericDownClickHandler);
+    popover.find('[data-id="now-btn"]').click(nowClickHandler);
+    popover.find('[data-id="date-btn"]').click(dateClickHandler);
+    popover.find('[data-id="time-btn"]').click(timeClickHandler);
+  }
+
   function buildCalendar(date) {
     popover.find('[data-id="time-btn"]').removeClass('active');
     popover.find('[data-id="date-btn"]').addClass('active');
@@ -130,18 +144,6 @@
         '</div>' +
       '</div>');
 
-    // Bind click events to calendar buttons
-    popover.find('[data-id="previous-btn"]').click(previousMonthClickHandler);
-    popover.find('[data-id="next-btn"]').click(nextMonthClickHandler);
-    popover.find('[data-id="today-btn"]').click(todayClickHandler);
-    popover.find('[data-id="done-btn"]').click(doneClickHandler);
-    popover.find('[data-id="hour-up-btn"], [data-id="minute-up-btn"], [data-id="second-up-btn"]').click(numericUpClickHandler);
-    popover.find('[data-id="hour-input"], [data-id="minute-input"], [data-id="second-input"]').change(numericChangeHandler);
-    popover.find('[data-id="hour-down-btn"], [data-id="minute-down-btn"], [data-id="second-down-btn"]').click(numericDownClickHandler);
-    popover.find('[data-id="now-btn"]').click(nowClickHandler);
-    popover.find('[data-id="date-btn"]').click(dateClickHandler);
-    popover.find('[data-id="time-btn"]').click(timeClickHandler);
-
     // Create table header with names of days
     var theadTr = popover.find('.popover-content > table > thead > tr');
     for (var i in moment.weekdaysShort()) {
@@ -219,7 +221,8 @@
   }
 
   function hidePopover() {
-    popover.hide();
+    // Remove popover from DOM
+    popover.remove();
     popoverInput = null;
     currentDate = null;
   }
@@ -309,6 +312,11 @@
   }
 
   function popoverHandler() {
+    // If popover hasn't been built yet then build it
+    if (!popover) {
+      buildPopover();
+    }
+
     var inputBtn = jQuery(this);
     currentInput = inputBtn.parent().prev();
 
@@ -332,6 +340,9 @@
 
     // Build calendar based on date
     presentInput(date);
+
+    // Bind events to popover
+    bindEvents();
 
     // Show DateTime picker
     popover.show();
@@ -469,13 +480,6 @@
 
     hidePopover();
   }
-
-  buildPopover();
-
-  jQuery(function () {
-    // Add DateTime popover to DOM
-    jQuery('body').append(popover);
-  });
 
   // Bootstrap DateTime object with public methods
   bootstrapDateTime = {
