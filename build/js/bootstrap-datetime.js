@@ -152,6 +152,9 @@
 
     title = popover.find('.panel-title');
     tbody = popover.find('.popover-content > table > tbody');
+
+    // Bind events to popover
+    bindEvents();
   }
 
   function buildTime(date) {
@@ -222,7 +225,7 @@
 
   function hidePopover() {
     // Remove popover from DOM
-    popover.remove();
+    popover.detach();
     popoverInput = null;
     currentDate = null;
   }
@@ -340,9 +343,6 @@
 
     // Build calendar based on date
     presentInput(date);
-
-    // Bind events to popover
-    bindEvents();
 
     // Show DateTime picker
     popover.show();
@@ -490,13 +490,53 @@
     },
 
     // Add picker to inputs based on a given jQuery selector
-    bind: function (selector) {
-      // Get inputs from selector
-      var inputs = jQuery(selector);
+    bind: function (bindTo) {
+      var inputs;
+
+      // If bindTo is a string treat it as a jQuery selector
+      if (typeof bindTo === 'string') {
+        inputs = jQuery(bindTo);
+
+      // If bindTo is a jQuery object
+      } else if (bindTo instanceof jQuery) {
+        inputs = bindTo;
+
+      // If bindTo is null no reason to continue
+      } else if (bindTo === null) {
+        return;
+
+      // If bindTo is a DOM element get it as jQuery object
+      } else if (bindTo.hasOwnProperty('nodeType')) {
+        inputs = jQuery(bindTo);
+
+      // If bindTo is something else throw exception
+      } else {
+          throw 'Unknown type to bind to';
+      }
 
       // Setup each input one by one
       inputs.each(function (i, input) {
         input = jQuery(input);
+
+        var alreadyPicker = false;
+        input.parent().find('button').each(function (i, el) {
+            // Get events for button
+            var events = jQuery._data(el, 'events');
+
+            // If button has click events, look for popover handler
+            if (events && 'click' in events) {
+                for (var j = 0; j < events.click.length; j++) {
+                    if (events.click[j].handler === popoverHandler) {
+                        alreadyPicker = true;
+                        return;
+                    }
+                }
+            }
+        });
+
+        if (alreadyPicker) {
+            return;
+        }
 
         // If input is not in an input group, put it inside an input group
         if (!input.parent().hasClass('input-group')) {
