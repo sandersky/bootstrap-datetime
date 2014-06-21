@@ -1,7 +1,31 @@
 <div id="documentation">
   <h2>Documentation</h2>
   <p class="lead">
-    {{ site.name }} leverages <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> classes which means if you have a customized version of <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>, {{ site.name }} will automatically take on your customizations. There are two ways to get started with {{ site.name }}:
+    {{ site.name }} leverages <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> classes which means if you have a customized version of <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>, {{ site.name }} will automatically take on your customizations.</p>
+  <p class="lead">
+    Dependencies
+    <ol>
+      <li>
+        <a href="http://jquery.com/" target="_blank">jQuery</a>
+      </li>
+      <li>
+        <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>
+      </li>
+      <li>
+        <a href="http://momentjs.com/" target="_blank">Moment.js</a>
+      </li>
+    </ol>
+    Make sure to include required stylesheets and scripts like so (making sure paths point to your actual files):
+    <pre>&lt;link href="bootstrap.min.css" rel="stylesheet"&gt;
+&lt;link href="bootstrap-datetime.min.css" rel="stylesheet"&gt;
+
+&lt;script src="jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;script src="moment.min.js"&gt;&lt;/script&gt;
+&lt;script src="bootstrap-datetime.min.js"&gt;&lt;/script&gt;</pre>
+  </p>
+  <p class="lead">
+    There are a few ways to get started with {{ site.name }}:
   </p>
   <ol>
     <li>
@@ -20,6 +44,20 @@
       <p>
         Apply {{ site.name }} to only certain DOM elements using a jQuery selector (In this example apply {{ site.name }} to all DOM elements with the class <em>enhancify</em>):
         <pre>bootstrapDateTime.bind('.enhancify');</pre>
+      </p>
+    </li>
+    <li>
+      <p>
+        Apply {{ site.name }} to a jQuery object (In this example apply {{ site.name }} to all DOM elements with the class <em>enhancify</em>).
+        <pre>var elements = jQuery('.enhancify');
+bootstrapDateTime.bind(elements);</pre>
+      </p>
+    </li>
+    <li>
+      <p>
+        Apply {{ site.name }} to a DOM element (In this example apply {{ site.name }} to DOM element with the id <em>enhancify</em>).
+        <pre>var element = document.getElementById('enhancify');
+bootstrapDateTime.bind(element);</pre>
       </p>
     </li>
   </ol>
