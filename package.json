@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-datetime",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DateTime picker that utilizes Twitter Bootstrap",
   "repository": {
     "type": "git",
