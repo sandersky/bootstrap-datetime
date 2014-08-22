@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-datetime",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bootstrap datetime picker",
   "authors": [
     {
@@ -14,8 +14,16 @@
   },
   "main": "src/js/bootstrap-datetime/main.js",
   "ignore": [
-    "src",
+    "demo/",
+    "karma/",
+    "spec/",
+    "src/js/",
+    ".csslintrc",
     ".eslintrc",
+    ".gitattributes",
+    ".gitignore",
+    ".npmignore",
+    "app.config.js",
     "Gruntfile.js",
     "package.json",
     "README.md"
