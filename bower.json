@@ -1,23 +1,27 @@
 {
   "name": "bootstrap-datetime",
-  "version": "0.0.2",
-  "homepage": "https://github.com/sandersky/bootstrap-datetime",
+  "version": "0.0.1",
+  "description": "Bootstrap datetime picker",
   "authors": [
-    "Matthew Dahl"
+    {
+      "name": "Matthew Dahl"
+    }
   ],
-  "description": "DateTime picker that utilizes Twitter Bootstrap",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sandersky/bootstrap-datetime.git"
+  },
+  "main": "src/js/bootstrap-datetime/main.js",
   "ignore": [
-    "**/.*",
-    "bower_components",
-    "node_modules",
+    "src",
+    ".eslintrc",
     "Gruntfile.js",
     "package.json",
     "README.md"
   ],
   "dependencies": {
-    "bootstrap": "git://github.com/twbs/bootstrap.git#~3.1.1",
-    "jquery": "~2.1.1",
-    "momentjs": "~2"
+    "bootstrap": "~3.2.0",
+    "moment": "~2.8.1"
   }
 }

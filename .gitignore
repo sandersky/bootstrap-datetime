@@ -1,4 +1,6 @@
-_site/
 bower_components/
+build/
+coverage/
 node_modules/
+
 .DS_Store

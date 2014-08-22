@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>bootstrap-datetime demo</title>
+        <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../build/css/bootstrap-datetime.css" rel="stylesheet" type="text/css">
+        <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script data-main="../src/js/bootstrap-datetime/main" src="../node_modules/requirejs/require.js"></script>
+        <script>
+            requirejs.config({
+                paths: {
+                    'moment': '../../../bower_components/moment/min/moment-with-locales',
+                },
+            });
+        </script>
+    </head>
+    <body>
+        <form class="form-horizontal col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="datetime">DateTime</label>
+                <div class="col-sm-8">
+                    <input class="form-control" id="datetime" type="datetime">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="date">Date</label>
+                <div class="col-sm-8">
+                    <input class="form-control" id="date" type="date">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="time">Time</label>
+                <div class="col-sm-8">
+                    <input class="form-control" id="time" type="time">
+                </div>
+            </div>
+        </form>
+        <script>
+            require(['main'], function (Picker) {
+                var picker = new Picker();
+                picker.auto();
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{
+    "globals": {
+        "afterEach": false,
+        "beforeEach": false,
+        "console": false,
+        "describe": false,
+        "expect": false,
+        "it": false,
+        "spyOn": false,
+        "xdescribe": false,
+        "xit": false
+    },
+    "rules": {
+        "max-nested-callbacks": 0
+    }
+}
