@@ -4,8 +4,10 @@
  */
 define([
     'moment',
+    './util',
 ], function (
-    moment
+    moment,
+    util
 ) {
     'use strict';
 
@@ -15,9 +17,8 @@ define([
     };
 
     function createButton(timeView, dataId, additionalClassName, contents, clickHandler) {
-        var button = document.createElement('a');
+        var button = util.el('a', 'btn btn-default');
         button.href = '#';
-        button.className = 'btn btn-default';
 
         if (additionalClassName) {
             button.className += ' ' + additionalClassName;
@@ -34,20 +35,20 @@ define([
     }
 
     function updateTime(timeView) {
-        if (!timeView.currentDateTime || !timeView.currentDateTime.isValid()) {
-            timeView.currentDateTime = moment();
+        if (!timeView.dt || !timeView.dt.isValid()) {
+            timeView.dt = moment();
         }
 
-        timeView.currentDateTime.hour(timeView.hourInput.value);
-        timeView.currentDateTime.minute(timeView.minuteInput.value);
-        timeView.currentDateTime.second(timeView.secondInput.value);
+        timeView.dt.hour(timeView.hourInput.value);
+        timeView.dt.minute(timeView.minuteInput.value);
+        timeView.dt.second(timeView.secondInput.value);
 
-        timeView.updateCallback(timeView.currentDateTime);
+        timeView.updateCallback(timeView.dt);
     }
 
     function doneClickHandler(timeView) {
         timeView.closeOnUpdate = true;
-        timeView.updateCallback(timeView.currentDateTime);
+        timeView.updateCallback(timeView.dt);
         timeView.closeOnUpdate = false;
     }
 
@@ -112,13 +113,11 @@ define([
     }
 
     function createNumericPicker(timeView, dataId) {
-        var div = document.createElement('div');
-        div.className = 'col-md-4 text-center';
+        var div = util.el('div', 'col-md-4 text-center');
 
         var upBtn = createButton(timeView, dataId + '-up-btn', '', '<span class="glyphicon glyphicon-chevron-up"></span>', upClickHandler);
         var downBtn = createButton(timeView, dataId + '-down-btn', '', '<span class="glyphicon glyphicon-chevron-down"></span>', downClickHandler);
-        var input = document.createElement('input');
-        input.className = 'form-control';
+        var input = util.el('input', 'form-control');
         input.maxLength = 2;
         input.setAttribute('data-id', dataId + '-input');
 
@@ -133,20 +132,20 @@ define([
         var now = moment();
 
         // If input already has a DateTime update date (keeping time the same)
-        if (timeView.currentDateTime && timeView.currentDateTime.isValid()) {
-            timeView.currentDateTime.hour(now.hour());
-            timeView.currentDateTime.minute(now.minute());
-            timeView.currentDateTime.second(now.second());
+        if (timeView.dt && timeView.dt.isValid()) {
+            timeView.dt.hour(now.hour());
+            timeView.dt.minute(now.minute());
+            timeView.dt.second(now.second());
         // Otherwise set date and zero out time
         } else {
-            timeView.currentDateTime = now;
-            timeView.currentDateTime.hour(0);
-            timeView.currentDateTime.minute(0);
-            timeView.currentDateTime.second(0);
+            timeView.dt = now;
+            timeView.dt.hour(0);
+            timeView.dt.minute(0);
+            timeView.dt.second(0);
         }
 
         timeView.closeOnUpdate = true;
-        timeView.updateCallback(timeView.currentDateTime);
+        timeView.updateCallback(timeView.dt);
         timeView.closeOnUpdate = false;
     }
 
@@ -161,8 +160,7 @@ define([
         this.footerButton = createButton(this, 'now-btn', 'btn-xs', localeText.NOW, nowClickHandler);
         this.closeOnUpdate = false;
 
-        var clearDiv = document.createElement('div');
-        clearDiv.className = 'clearfix';
+        var clearDiv = util.el('div', 'clearfix');
 
         var hourPicker = createNumericPicker(this, 'hour');
         var minutePicker = createNumericPicker(this, 'minute');
@@ -172,9 +170,8 @@ define([
         this.minuteInput = minutePicker.children[1];
         this.secondInput = secondPicker.children[1];
 
-        var doneBtn = document.createElement('a');
+        var doneBtn = util.el('a', 'btn btn-xs btn-default pull-right');
         doneBtn.href = '#';
-        doneBtn.className = 'btn btn-xs btn-default pull-right';
         doneBtn.textContent = localeText.DONE;
         doneBtn.setAttribute('data-id', 'done-btn');
 
@@ -199,9 +196,9 @@ define([
     }
 
     TimeView.prototype.update = function (datetime) {
-        this.currentDateTime = datetime;
+        this.dt = datetime;
 
-        updateUI(this, this.currentDateTime);
+        updateUI(this, this.dt);
     };
 
     return TimeView;

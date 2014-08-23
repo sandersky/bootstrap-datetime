@@ -3,12 +3,14 @@
  */
 define([
     './date-view',
-    './time-view',
     'moment',
+    './time-view',
+    './util',
 ], function (
     DateView,
+    moment,
     TimeView,
-    moment
+    util
 ) {
     'use strict';
 
@@ -105,12 +107,10 @@ define([
         }
 
         for (var i = 0; i < picker.views.length; i++) {
-            var button = document.createElement('a');
-            button.className = 'btn btn-default';
+            var button = util.el('a', 'btn btn-default');
             button.href = '#';
             button.setAttribute('data-index', i);
-            var span = document.createElement('span');
-            span.className = 'glyphicon glyphicon-' + picker.views[i].icon;
+            var span = util.el('span', 'glyphicon glyphicon-' + picker.views[i].icon);
             button.appendChild(span);
 
             button.onclick = function (e) {
@@ -149,21 +149,14 @@ define([
         renderView(picker, picker.views[0]);
     }
 
-    function createDiv(className) {
-        var div = document.createElement('div');
-        div.className = className;
-
-        return div;
-    }
-
     function createPopover(picker) {
-        var popover = createDiv('popover bottom datetime-popover');
-        var arrow = createDiv('arrow');
-        var title = createDiv('popover-title text-center');
-        var body = createDiv('popover-content');
-        var footer = createDiv('panel-footer');
-        picker.btnGroup = createDiv('btn-group btn-group-xs pull-right');
-        var clearfix = createDiv('clearfix');
+        var popover = util.el('div', 'popover bottom datetime-popover');
+        var arrow = util.el('div', 'arrow');
+        var title = util.el('div', 'popover-title text-center');
+        var body = util.el('div', 'popover-content');
+        var footer = util.el('div', 'panel-footer');
+        picker.btnGroup = util.el('div', 'btn-group btn-group-xs pull-right');
+        var clearfix = util.el('div', 'clearfix');
 
         footer.appendChild(picker.btnGroup);
         footer.appendChild(clearfix);
@@ -328,7 +321,7 @@ define([
 
             // If input is not in an input group, put it inside an input group
             if (input.parentNode.className.indexOf('input-group') < 0) {
-                inputGroup = createDiv('input-group');
+                inputGroup = util.el('div', 'input-group');
                 input.parentNode.appendChild(inputGroup);
                 inputGroup.appendChild(input);
             } else {
@@ -355,11 +348,10 @@ define([
             input.type = 'text';
 
             //
-            var inputGroupBtn = createDiv('input-group-btn');
+            var inputGroupBtn = util.el('div', 'input-group-btn');
             inputGroup.appendChild(inputGroupBtn);
 
-            var pickerBtn = document.createElement('button');
-            pickerBtn.className = 'btn btn-default';
+            var pickerBtn = util.el('button', 'btn btn-default');
             inputGroupBtn.appendChild(pickerBtn);
 
             inputGroupBtn.onclick = function (e) {
@@ -367,8 +359,7 @@ define([
                 pickerClickHandler(self, e);
             };
 
-            var glyph = document.createElement('span');
-            glyph.className = 'glyphicon glyphicon-' + icon;
+            var glyph = util.el('span', 'glyphicon glyphicon-' + icon);
             pickerBtn.appendChild(glyph);
         }
     };

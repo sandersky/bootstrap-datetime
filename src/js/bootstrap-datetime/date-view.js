@@ -4,8 +4,10 @@
  */
 define([
     'moment',
+    './util',
 ], function (
-    moment
+    moment,
+    util
 ) {
     'use strict';
 
@@ -21,9 +23,8 @@ define([
     }
 
     function createButton(dataId, contents, clickHandler) {
-        var button = document.createElement('a');
+        var button = util.el('a', 'btn btn-xs btn-default');
         button.href = '#';
-        button.className = 'btn btn-xs btn-default';
         button.setAttribute('data-id', dataId);
         button.innerHTML = contents;
         button.onclick = clickHandler;
@@ -33,12 +34,10 @@ define([
 
     function createCalendar(dateView) {
         var th;
-        var table = document.createElement('table');
-        var thead = document.createElement('thead');
-        var theadTr = document.createElement('tr');
-        dateView.tbody = document.createElement('tbody');
-
-        table.className = 'table table-condensed table-striped';
+        var table = util.el('table', 'table table-condensed table-striped');
+        var thead = util.el('thead');
+        var theadTr = util.el('tr');
+        dateView.tbody = util.el('tbody');
 
         table.appendChild(thead);
         thead.appendChild(theadTr);
@@ -47,7 +46,7 @@ define([
         var weekdays = moment.weekdaysShort();
 
         for (var i = 0; i < weekdays.length; i++) {
-            th = document.createElement('th');
+            th = util.el('th');
             th.innerHTML = weekdays[i];
             theadTr.appendChild(th);
         }
@@ -59,12 +58,12 @@ define([
         e.preventDefault();
 
         // Update current datetime to be current visible month and year
-        dateView.currentDateTime = dateView.visibleDateTime;
+        dateView.dt = dateView.visibleDateTime;
 
         // Update current datetime to be date clicked
-        dateView.currentDateTime.date(parseInt(e.currentTarget.innerHTML));
+        dateView.dt.date(parseInt(e.currentTarget.innerHTML));
 
-        dateView.updateCallback(dateView.currentDateTime);
+        dateView.updateCallback(dateView.dt);
     }
 
     function updateHeader(dateView, dateTime) {
@@ -77,7 +76,7 @@ define([
         updateHeader(dateView, dateTime);
         clearCalendar(dateView);
 
-        var tr = document.createElement('tr');
+        var tr = util.el('tr');
         dateView.tbody.appendChild(tr);
 
         var dayCount,
@@ -89,21 +88,21 @@ define([
         var lastOfMonth = moment(dateTime).endOf('month');
 
         for (dayCount = 0; dayCount < firstOfMonth; dayCount++) {
-            tr.appendChild(document.createElement('td'));
+            tr.appendChild(util.el('td'));
         }
 
-        var currentMonthAndYear = dateView.currentDateTime.month() === dateView.visibleDateTime.month() &&
-                                  dateView.currentDateTime.year() === dateView.visibleDateTime.year();
+        var currentMonthAndYear = dateView.dt.month() === dateView.visibleDateTime.month() &&
+                                  dateView.dt.year() === dateView.visibleDateTime.year();
 
         for (i = 0 ; i < lastOfMonth.date(); i++) {
             if (dayCount === 7) {
-                tr = document.createElement('tr');
+                tr = util.el('tr');
                 dateView.tbody.appendChild(tr);
                 dayCount = 0;
             }
 
-            td = document.createElement('td');
-            link = document.createElement('a');
+            td = util.el('td');
+            link = util.el('a');
             link.href = '#';
             link.innerHTML = i + 1;
             link.onclick = function (e) {
@@ -121,7 +120,7 @@ define([
         }
 
         for (i = lastOfMonth.day(); i < 6; i++) {
-            tr.appendChild(document.createElement('td'));
+            tr.appendChild(util.el('td'));
             dayCount++;
         }
     }
@@ -138,16 +137,16 @@ define([
         var now = moment();
 
         // If input already has a DateTime update time (keeping date the same)
-        if (dateView.currentDateTime && dateView.currentDateTime.isValid()) {
-            dateView.currentDateTime.date(now.date());
-            dateView.currentDateTime.month(now.month());
-            dateView.currentDateTime.year(now.year());
+        if (dateView.dt && dateView.dt.isValid()) {
+            dateView.dt.date(now.date());
+            dateView.dt.month(now.month());
+            dateView.dt.year(now.year());
         // Otherwise set date and time to now
         } else {
-            dateView.currentDateTime = now;
+            dateView.dt = now;
         }
 
-        dateView.updateCallback(dateView.currentDateTime);
+        dateView.updateCallback(dateView.dt);
     }
 
     function DateView(updateCallback) {
@@ -161,8 +160,7 @@ define([
         this.updateCallback = updateCallback;
         this.closeOnUpdate = true;
 
-        this.header = document.createElement('h3');
-        this.header.className = 'panel-title';
+        this.header = util.el('h3', 'panel-title');
 
         this.titleContents = [
             createButton('previous-btn', '<span class="glyphicon glyphicon-chevron-left"></span>', function (e) {
@@ -184,9 +182,9 @@ define([
     }
 
     DateView.prototype.update = function (dateTime) {
-        this.currentDateTime = dateTime;
+        this.dt = dateTime;
 
-        updateUI(this, this.currentDateTime);
+        updateUI(this, this.dt);
     };
 
     return DateView;

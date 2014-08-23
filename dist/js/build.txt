@@ -1,6 +1,7 @@
 
 bootstrap-datetime/main.js
 ----------------
+bootstrap-datetime/util.js
 bootstrap-datetime/date-view.js
 bootstrap-datetime/time-view.js
 bootstrap-datetime/main.js
