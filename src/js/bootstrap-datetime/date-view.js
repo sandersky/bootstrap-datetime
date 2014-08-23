@@ -3,10 +3,8 @@
  * @returns {DateView} picker view for dates
  */
 define([
-    './base-view',
     'moment',
 ], function (
-    BaseView,
     moment
 ) {
     'use strict';
@@ -161,6 +159,7 @@ define([
         });
         this.icon = 'calendar';
         this.updateCallback = updateCallback;
+        this.closeOnUpdate = true;
 
         this.header = document.createElement('h3');
         this.header.className = 'panel-title';
@@ -183,9 +182,6 @@ define([
 
         this.bodyDataId = 'date-content';
     }
-
-    // Make DateView inherit BaseView
-    DateView.prototype = new BaseView();
 
     DateView.prototype.update = function (dateTime) {
         this.currentDateTime = dateTime;

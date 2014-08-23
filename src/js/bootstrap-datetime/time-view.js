@@ -3,10 +3,8 @@
  * @returns {TimeView} picker view for times
  */
 define([
-    './base-view',
     'moment',
 ], function (
-    BaseView,
     moment
 ) {
     'use strict';
@@ -195,12 +193,10 @@ define([
             clearDiv,
         ];
 
+        this.titleContents = null;
         this.bodyDataId = 'time-content';
         this.updateCallback = updateCallback;
     }
-
-    // Make TimeView inherit BaseView
-    TimeView.prototype = new BaseView();
 
     TimeView.prototype.update = function (datetime) {
         this.currentDateTime = datetime;
