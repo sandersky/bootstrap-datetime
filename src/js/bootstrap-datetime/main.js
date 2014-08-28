@@ -84,7 +84,9 @@ define([
     }
 
     function viewClickHandler(picker, e) {
-        var index = parseInt(e.currentTarget.getAttribute('data-index'));
+        picker.currentInput = e.currentTarget;
+
+        var index = parseInt(picker.currentInput.getAttribute('data-index'));
 
         // If clicked view is current view nothing to do
         if (index === picker.currentView) {
@@ -249,6 +251,12 @@ define([
         picker.views[picker.currentView].update(picker.currentDateTime);
     }
 
+    function triggerCallbacks(picker) {
+        for (var i = 0; i < picker.callbacks.length; i++) {
+            picker.callbacks[i](picker.currentDateTime, picker.currentInput);
+        }
+    }
+
     function updateCallback(picker, dateTime) {
         picker.currentDateTime = dateTime;
 
@@ -287,12 +295,15 @@ define([
         }
 
         picker.currentInput.value = picker.currentDateTime.format(format);
+
+        triggerCallbacks(picker);
     }
 
     function Picker(options) {
         this.options = overrideDefaults(options);
         this.popover = createPopover(this);
         this.views = [];
+        this.callbacks = [];
 
         var self = this;
 
@@ -304,6 +315,10 @@ define([
             updateCallback(self, dateTime);
         });
     }
+
+    Picker.prototype.addCallback = function (callback) {
+        this.callbacks.push(callback);
+    };
 
     Picker.prototype.auto = function () {
         this.bind('input[type="date"], input[type="datetime"], input[type="time"]');
@@ -362,6 +377,10 @@ define([
             var glyph = util.el('span', 'glyphicon glyphicon-' + icon);
             pickerBtn.appendChild(glyph);
         }
+    };
+
+    Picker.prototype.removeCallback = function (callback) {
+        this.callbacks.remove(callback);
     };
 
     return Picker;
