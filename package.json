@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/sandersky/bootstrap-datetime",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt full-test"
   },
   "devDependencies": {
     "grunt-amd-config": "^0.2.0",

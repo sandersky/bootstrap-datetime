@@ -27,4 +27,9 @@ module.exports = function (grunt) {
     });
 
     toolkit.registerDefaultTasks(grunt);
+
+    grunt.registerTask('full-test', [
+        'lint',
+        'test',
+    ]);
 };
