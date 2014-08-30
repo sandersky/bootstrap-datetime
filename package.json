@@ -16,6 +16,9 @@
     "url": "https://github.com/sandersky/bootstrap-datetime/issues"
   },
   "homepage": "https://github.com/sandersky/bootstrap-datetime",
+  "scripts": {
+    test: "grunt test"
+  },
   "devDependencies": {
     "grunt-amd-config": "^0.2.0",
     "underscore": "^1.6.0"
