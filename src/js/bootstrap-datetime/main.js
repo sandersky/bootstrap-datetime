@@ -257,23 +257,16 @@ define([
         }
     }
 
-    function updateCallback(picker, dateTime) {
-        picker.currentDateTime = dateTime;
-
-        // If current view is only view or last view then close popover
-        if ((picker.views.length === 1 || picker.currentView === (picker.views.length - 1)) &&
-            picker.views[picker.currentView].closeOnUpdate) {
-            picker.popover.style.display = 'none';
-        } else if (picker.currentView < (picker.views.length - 1)) {
-            picker.currentView += 1;
-            renderView(picker, picker.views[picker.currentView]);
-            picker.views[picker.currentView].update(picker.currentDateTime);
-        }
-
+    function updateInput(picker, input, value) {
         var format;
 
+        if (!value.isValid()) {
+            input.value = '';
+            return;
+        }
+
         // Get text format for datetime based on input type
-        switch (picker.currentInput.getAttribute('data-type')) {
+        switch (input.getAttribute('data-type')) {
             case 'date':
                 format = picker.options.dateFormat;
                 break;
@@ -287,14 +280,30 @@ define([
         }
 
         // Check for custom format specific to input
-        var customFormat = picker.currentInput.getAttribute('data-format');
+        var customFormat = input.getAttribute('data-format');
 
         // If input specifies custom format use it instead
         if (customFormat) {
             format = customFormat;
         }
 
-        picker.currentInput.value = picker.currentDateTime.format(format);
+        input.value = value.format(format);
+    }
+
+    function updateCallback(picker, dateTime) {
+        picker.currentDateTime = dateTime;
+
+        // If current view is only view or last view then close popover
+        if ((picker.views.length === 1 || picker.currentView === (picker.views.length - 1)) &&
+            picker.views[picker.currentView].closeOnUpdate) {
+            picker.popover.style.display = 'none';
+        } else if (picker.currentView < (picker.views.length - 1)) {
+            picker.currentView += 1;
+            renderView(picker, picker.views[picker.currentView]);
+            picker.views[picker.currentView].update(picker.currentDateTime);
+        }
+
+        updateInput(picker, picker.currentInput, picker.currentDateTime);
 
         triggerCallbacks(picker);
     }
@@ -376,6 +385,8 @@ define([
 
             var glyph = util.el('span', 'glyphicon glyphicon-' + icon);
             pickerBtn.appendChild(glyph);
+
+            updateInput(this, input, moment(input.value));
         }
     };
 
